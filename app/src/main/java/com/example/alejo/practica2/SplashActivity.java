@@ -12,6 +12,7 @@ import java.util.TimerTask;
 public class SplashActivity extends AppCompatActivity {
 
     SharedPreferences prefs;
+    SharedPreferences.Editor editor;
 
 
     @Override
@@ -20,8 +21,8 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
 
-        prefs = getSharedPreferences("Mis preferencias",MODE_PRIVATE);
-        final int optlog  = prefs.getInt("optlog",0);
+        prefs = getSharedPreferences(Tags.TAG_PREFERENCES,MODE_PRIVATE);
+        final int oplog  = prefs.getInt(Tags.LOGIN_OPTION,0);
 
 
 
@@ -33,7 +34,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Intent intent;
-                if(optlog == 0) {
+                if(oplog == 0) {
                     intent = new Intent(SplashActivity.this, LoguinActivity.class);
                 }else{
                     intent = new Intent(SplashActivity.this, MainActivity.class);

@@ -38,11 +38,10 @@ public class MainActivity extends DrawerActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Log.d("correo del main",correoR);
-        //Log.d("contraseña del main",contraseñaR);
+
 
         prefs = getSharedPreferences(Tags.TAG_PREFERENCES,MODE_PRIVATE);
-        //Toast.makeText(getApplicationContext(),"Dure mas "+hola,Toast.LENGTH_LONG).show();
+
 
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -75,10 +74,6 @@ public class MainActivity extends DrawerActivity {
         switch (id){
             case R.id.mMiPerfil:
                 intent = new Intent(MainActivity.this,PerfilActivity.class);
-                intent.putExtra("correo", correoR);
-                intent.putExtra("contraseña", contraseñaR);
-                intent.putExtra("foto",fotoR);
-                intent.putExtra("nombre",nombreR);
                 startActivity(intent);
                 break;
             case R.id.mCerrar:
@@ -86,7 +81,7 @@ public class MainActivity extends DrawerActivity {
                 prefs = getSharedPreferences("Mis preferencias",MODE_PRIVATE);
                 editor = prefs.edit();
 
-                editor.putInt("oplog",oplog);
+                editor.putInt(Tags.LOGIN_OPTION,oplog);
                 editor.commit();
 
                 ///////////////////////////////cerrar sesión de google
@@ -101,13 +96,15 @@ public class MainActivity extends DrawerActivity {
                 ////////////////////////////////////////////////
                 LoginManager.getInstance().logOut(); //Cierra sesión en facebook
                 intent = new Intent(MainActivity.this,LoguinActivity.class);
-
-
-
-                intent.putExtra("correomain", correoR);
-                intent.putExtra("contraseñamain", contraseñaR);
-                intent.putExtra("main", main);
-                intent.putExtra("nombremain", nombreR);
+                prefs = getSharedPreferences("Mis preferencias",MODE_PRIVATE);
+                editor = prefs.edit();
+                oplog =0;
+                editor.putString(Tags.TAG_PASSWORD,"");
+                editor.putString(Tags.TAG_EMAIL,"");
+                editor.putString(Tags.TAG_NAME,"");
+                editor.putString(Tags.TAG_URLIMG,"");
+                editor.putInt(Tags.LOGIN_OPTION,oplog);
+                editor.commit();
                 startActivity(intent);
                 finish();
                 break;

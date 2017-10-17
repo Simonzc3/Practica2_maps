@@ -54,8 +54,8 @@ import org.json.JSONObject;
 
 
 public class LoguinActivity extends AppCompatActivity {
-    String contraseñaR,correoR,nombreR,contraseñai,correoi,contraseñarr,correorr,correomain,contraseñamain;
-    EditText eCorreo,eContraeña;
+    String contrasenaR,correoR,correo,contrasena,nombreR,contraseñai,correoi,contraseñarr,correorr,correomain,contraseñamain;
+    EditText eCorreo,eContrasena;
     String personPhotoUrl, personName ="";
     Uri urlphoto;
     int main;
@@ -148,7 +148,7 @@ public class LoguinActivity extends AppCompatActivity {
 
 
         eCorreo = (EditText) findViewById(R.id.eCorreo);
-        eContraeña = (EditText) findViewById(R.id.eContraseña);
+        eContrasena = (EditText) findViewById(R.id.eContraseña);
 
 
         loginButton = (LoginButton) findViewById(R.id.login_button);
@@ -197,7 +197,7 @@ public class LoguinActivity extends AppCompatActivity {
                                 //editor.putBoolean(getString(R.string.is_guest), false);
                                 editor.putInt(Tags.LOGIN_OPTION, 1).apply();
                                 editor.apply();
-                                goMainActivity(1);
+                                goMainActivity();
                             }
 
                         } catch (JSONException e) {
@@ -233,23 +233,10 @@ public class LoguinActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 1234 && resultCode == RESULT_OK){
-           /* correoR = data.getExtras().getString("correo");
-            contraseñaR = data.getExtras().getString("contraseña");
-            nombreR = data.getExtras().getString("nombre");*/
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putString(Tags.TAG_NAME, full_name);
-            editor.putString(Tags.TAG_EMAIL, email_id);
-            editor.putString(Tags.TAG_URLIMG, profile_image);
-            //editor.putBoolean(getString(R.string.is_guest), false);
-            editor.putInt(Tags.LOGIN_OPTION, 1).apply();
-            editor.apply();
-            goMainActivity(1);
+        if(requestCode == 1234 && resultCode == RESULT_OK){ //registro
+            Toast.makeText(this, "REGISTRO ÉXITOSO", Toast.LENGTH_SHORT).show();
 
 
-            Log.d("correo",correoR);
-            Log.d("contraseña",contraseñaR);
-            Log.d("nombre",nombreR);
         }else if (requestCode == 5678){
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
@@ -264,31 +251,16 @@ public class LoguinActivity extends AppCompatActivity {
     }
 
     public void iniciar(View view) {
-        //validaciones
+        correoR = prefs.getString(Tags.TAG_EMAIL, "");
+        contrasenaR = prefs.getString(Tags.TAG_PASSWORD, "");
 
-        correoi = eCorreo.getText().toString();
-        contraseñai = eContraeña.getText().toString();
-        if(mainR == 2222){
-            Log.d("correo del 2222",correoR);
-            Log.d("contraseña del 2222",contraseñaR);
-            prefs = getSharedPreferences("MisPreferencias",MODE_PRIVATE);
-            oplog = 2;
+        correo = eCorreo.getText().toString();
+        contrasena = eContrasena.getText().toString();
+        oplog = 3;
 
-            editor = prefs.edit();
-            editor.putInt("oplog",oplog);
-        }
-        if (correoi.equals(correoR) && contraseñai.equals(contraseñaR)) {
-
-
-            prefs = getSharedPreferences("MisPreferencias",MODE_PRIVATE);
-            editor = prefs.edit();
-            oplog = 1;
-            editor.putInt("oplog",oplog);
-
-            goMainActivity(2);
-
-        }
-        else{
+        if(correo.equals(correoR) && contrasena.equals(contrasenaR)){
+            goMainActivity();
+        }  else{
             AlertDialog ventana = new AlertDialog.Builder(this).create();
             ventana.setMessage("Error en los datos ingresados");
             ventana.setTitle("Error");
@@ -303,7 +275,7 @@ public class LoguinActivity extends AppCompatActivity {
         return pattern.matcher(email).matches();
     }
 
-    public void goMainActivity(int option){
+    public void goMainActivity(){
         prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
         editor = prefs.edit();
 
@@ -335,7 +307,17 @@ public class LoguinActivity extends AppCompatActivity {
             personPhotoUrl = urlphoto.toString();
             correoR = acct.getEmail();
 
-            goMainActivity(3);
+            prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+            editor = prefs.edit();
+            editor.putString(Tags.TAG_NAME, personName);
+            editor.putString(Tags.TAG_EMAIL, correoR);
+            editor.putString(Tags.TAG_URLIMG, personPhotoUrl);
+            //editor.putBoolean(getString(R.string.is_guest), false);
+            editor.putInt(Tags.LOGIN_OPTION, 1).apply();
+            editor.apply();
+
+
+            goMainActivity();
             // ir a la actividad Main Activity
             // Ojo que el loguelo de google no va todavía
             //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));

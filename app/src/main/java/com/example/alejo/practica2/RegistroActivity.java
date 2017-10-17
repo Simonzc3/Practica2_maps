@@ -1,6 +1,8 @@
 package com.example.alejo.practica2;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +14,8 @@ import java.util.regex.Pattern;
 public class RegistroActivity extends AppCompatActivity {
     String correo="",contraseña="",repcontraseña,Nombre;
     EditText eCorreo,eContraseña,eRepcontraseña,eNombre;
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
 
 
     @Override
@@ -38,9 +42,18 @@ public class RegistroActivity extends AppCompatActivity {
            /* Intent intent = new Intent();
             intent.putExtra("correo", correo);
             intent.putExtra("contraseña", contraseña);
-            intent.putExtra("nombre", Nombre);
-            setResult(RESULT_OK, intent);*/
-           
+            intent.putExtra("nombre", Nombre);*/
+            prefs = getSharedPreferences(Tags.TAG_PREFERENCES, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(Tags.TAG_NAME, Nombre);
+            editor.putString(Tags.TAG_EMAIL, correo);
+            editor.putString(Tags.TAG_PASSWORD, contraseña);
+            //editor.putBoolean(getString(R.string.is_guest), false);
+            editor.putInt(Tags.LOGIN_OPTION, 1).apply();
+            editor.apply();
+            setResult(RESULT_OK);
+
+
             finish();
         } else if (!validarEmail(correo)) {
 

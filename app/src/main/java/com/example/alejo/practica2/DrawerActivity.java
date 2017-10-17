@@ -174,7 +174,9 @@ public class DrawerActivity extends AppCompatActivity {
                             case R.id.home:
                                 fullLayout.closeDrawer(GravityCompat.START);
                                 if (!item.isChecked()) {
-
+                                    intent = new Intent(DrawerActivity.this,MainActivity.class);
+                                    handler.postDelayed(delay, 150);
+                                    item.setChecked(true);      // Start activity after some delay
                                 }
                                 break;
 
