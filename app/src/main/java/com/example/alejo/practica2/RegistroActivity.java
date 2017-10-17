@@ -35,11 +35,12 @@ public class RegistroActivity extends AppCompatActivity {
 
         if ((validarEmail(correo)) && (contraseña.equals(repcontraseña)) && (!Nombre.isEmpty()) && (!contraseña.isEmpty())) {
 
-            Intent intent = new Intent();
+           /* Intent intent = new Intent();
             intent.putExtra("correo", correo);
             intent.putExtra("contraseña", contraseña);
             intent.putExtra("nombre", Nombre);
-            setResult(RESULT_OK, intent);
+            setResult(RESULT_OK, intent);*/
+           
             finish();
         } else if (!validarEmail(correo)) {
 

@@ -20,7 +20,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends DrawerActivity {
     String correo="",contraseña="";
     String correoR, contraseñaR,nombreR;
     String fotoR="";
@@ -28,8 +28,6 @@ public class MainActivity extends AppCompatActivity {
 
     int oplog;
     GoogleApiClient mGoogleApiClient;
-
-
 
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
@@ -40,20 +38,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Bundle extras = getIntent().getExtras();
-        correoR = extras.getString("correo");
-        //Log.d("correo del main",correoR);
-        contraseñaR = extras.getString("contraseña");
-        fotoR = extras.getString("foto");
-        nombreR = extras.getString("nombre");
         //Log.d("correo del main",correoR);
         //Log.d("contraseña del main",contraseñaR);
 
-        prefs = getSharedPreferences("Mis preferencias",MODE_PRIVATE);
-
-        String hola = prefs.getString("hola","");
-        Toast.makeText(getApplicationContext(),"Dure mas "+hola,Toast.LENGTH_LONG).show();
-
+        prefs = getSharedPreferences(Tags.TAG_PREFERENCES,MODE_PRIVATE);
+        //Toast.makeText(getApplicationContext(),"Dure mas "+hola,Toast.LENGTH_LONG).show();
 
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -70,11 +59,6 @@ public class MainActivity extends AppCompatActivity {
                 } /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-
-
-
-
-
     }
 
     @Override

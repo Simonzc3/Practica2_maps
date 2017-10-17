@@ -2,6 +2,7 @@ package com.example.alejo.practica2;
 
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -10,6 +11,7 @@ import android.content.pm.Signature;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -58,9 +60,7 @@ public class LoguinActivity extends AppCompatActivity {
     Uri urlphoto;
     int main;
     int mainR = 0;
-    int oplong;
-
-
+    int oplog;
 
     String facebook_id;
     String f_name;
@@ -73,8 +73,6 @@ public class LoguinActivity extends AppCompatActivity {
     String id_facebook;
     String hola;
     Bitmap imagen;
-
-
 
 
 
@@ -141,12 +139,12 @@ public class LoguinActivity extends AppCompatActivity {
                                             }
         });
                 ///////////////////////////////////////////////////////////////////////////////
-                Bundle extras = getIntent().getExtras();
+              /*  Bundle extras = getIntent().getExtras();
         if(extras!=null){
             correoR = extras.getString("correomain");
             contraseñaR = extras.getString("contraseñamain");
             nombreR = extras.getString("nombremain");
-        }
+        }*/
 
 
         eCorreo = (EditText) findViewById(R.id.eCorreo);
@@ -154,6 +152,7 @@ public class LoguinActivity extends AppCompatActivity {
 
 
         loginButton = (LoginButton) findViewById(R.id.login_button);
+        prefs = getSharedPreferences(Tags.TAG_PREFERENCES, Context.MODE_PRIVATE);
 
         loginButton.setReadPermissions(Arrays.asList(
                 "email",
@@ -161,22 +160,12 @@ public class LoguinActivity extends AppCompatActivity {
         ));
 
 
-
-
-
-
-
-
-
-
-
-
         callbackManager = CallbackManager.Factory.create();
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Toast.makeText(getApplicationContext(),"Login Exitosooo",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Login Exitoso",Toast.LENGTH_SHORT).show();
 
                 //progress.show();
                 Profile profile = Profile.getCurrentProfile();
@@ -188,7 +177,6 @@ public class LoguinActivity extends AppCompatActivity {
                     full_name=profile.getName();
                     profile_image=profile.getProfilePictureUri(400, 400).toString();
                     Toast.makeText(getApplicationContext(),full_name,Toast.LENGTH_SHORT).show();
-
                 }
 
 
@@ -201,6 +189,14 @@ public class LoguinActivity extends AppCompatActivity {
                             if(json != null){
                                 String text = "<b>Name :</b> "+json.getString("name")+"<br><br><b>Email :</b> "+json.getString("email")+"<br><br><b>Profile link :</b> "+json.getString("link");
                                 email_id = json.getString("email");
+
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putString(Tags.TAG_NAME, full_name);
+                                editor.putString(Tags.TAG_EMAIL, email_id);
+                                editor.putString(Tags.TAG_URLIMG, profile_image);
+                                //editor.putBoolean(getString(R.string.is_guest), false);
+                                editor.putInt(Tags.LOGIN_OPTION, 1).apply();
+                                editor.apply();
                                 goMainActivity(1);
                             }
 
@@ -228,21 +224,6 @@ public class LoguinActivity extends AppCompatActivity {
             }
         });
 
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.example.alejo.practica2",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-
-        } catch (NoSuchAlgorithmException e) {
-
-        }
-
     }
     public void registrarse(View view){
         Intent intent = new Intent(LoguinActivity.this,RegistroActivity.class);
@@ -253,9 +234,18 @@ public class LoguinActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == 1234 && resultCode == RESULT_OK){
-            correoR = data.getExtras().getString("correo");
+           /* correoR = data.getExtras().getString("correo");
             contraseñaR = data.getExtras().getString("contraseña");
-            nombreR = data.getExtras().getString("nombre");
+            nombreR = data.getExtras().getString("nombre");*/
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(Tags.TAG_NAME, full_name);
+            editor.putString(Tags.TAG_EMAIL, email_id);
+            editor.putString(Tags.TAG_URLIMG, profile_image);
+            //editor.putBoolean(getString(R.string.is_guest), false);
+            editor.putInt(Tags.LOGIN_OPTION, 1).apply();
+            editor.apply();
+            goMainActivity(1);
+
 
             Log.d("correo",correoR);
             Log.d("contraseña",contraseñaR);
@@ -281,19 +271,19 @@ public class LoguinActivity extends AppCompatActivity {
         if(mainR == 2222){
             Log.d("correo del 2222",correoR);
             Log.d("contraseña del 2222",contraseñaR);
-            prefs = getSharedPreferences("Mis preferencias",MODE_PRIVATE);
-            oplong = 2;
+            prefs = getSharedPreferences("MisPreferencias",MODE_PRIVATE);
+            oplog = 2;
 
             editor = prefs.edit();
-            editor.putInt("oplong",oplong);
+            editor.putInt("oplog",oplog);
         }
         if (correoi.equals(correoR) && contraseñai.equals(contraseñaR)) {
 
 
-            prefs = getSharedPreferences("Mis preferencias",MODE_PRIVATE);
+            prefs = getSharedPreferences("MisPreferencias",MODE_PRIVATE);
             editor = prefs.edit();
-            oplong = 1;
-            editor.putInt("oplong",oplong);
+            oplog = 1;
+            editor.putInt("oplog",oplog);
 
             goMainActivity(2);
 
@@ -314,36 +304,12 @@ public class LoguinActivity extends AppCompatActivity {
     }
 
     public void goMainActivity(int option){
-        // opcion 1 que es facebook extraer la foto y el correo
-        // opción 2 solo mandar el correo y la contraseña
-        // opcion 3 el correo con google
-        Intent intent = new Intent(LoguinActivity.this, MainActivity.class);
-
-        if(option == 1){
-            //Log.d("correo del login",email_id);
-            intent.putExtra("correo",email_id);
-
-            intent.putExtra("nombre",full_name);
-            intent.putExtra("foto",profile_image);
-        }
-
-        else if(option == 2){
-            intent.putExtra("correo", correoR);
-            intent.putExtra("contraseña", contraseñaR);
-            intent.putExtra("nombre",nombreR);
-        }
-        else if(option == 3) {
-            intent.putExtra("correo", correoR);
-            intent.putExtra("contraseña", contraseñaR);
-            intent.putExtra("foto", personPhotoUrl);
-            intent.putExtra("nombre", personName);
-        }
-        prefs = getSharedPreferences("Mis preferencias",MODE_PRIVATE);
+        prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
         editor = prefs.edit();
-        hola= "hola esto es una prueba";
-        editor.putInt("oplong",oplong);
-        editor.putString("hola",hola);
-        editor.commit();
+
+        //almacenar el valor de optlog
+        editor.putInt("optlog", oplog).apply();
+        Intent intent = new Intent(LoguinActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
 
@@ -366,7 +332,7 @@ public class LoguinActivity extends AppCompatActivity {
             personName = acct.getDisplayName();
             urlphoto = acct.getPhotoUrl();
 
-            personPhotoUrl = urlphoto.toString().trim();
+            personPhotoUrl = urlphoto.toString();
             correoR = acct.getEmail();
 
             goMainActivity(3);
