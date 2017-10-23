@@ -188,11 +188,11 @@ public class DrawerActivity extends AppCompatActivity {
                                     item.setChecked(true);      // Start activity after some delay
                                 }
                                 break;
-                                /*
-                            case R.id.see_routes:
+
+                          /*  case R.id.nav_specs:
                                 fullLayout.closeDrawer(GravityCompat.START);
                                 if (!item.isChecked()) {
-                                    intent = new Intent(DrawerActivity.this,SeeRoutes_Main.class);
+                                    intent = new Intent(DrawerActivity.this,Specs.class);
                                     handler.postDelayed(delay, 150);
                                     item.setChecked(true);      // Start activity after some delay
                                 }
