@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.alejo.practica2.Fragments.PerfilFragment;
+import com.example.alejo.practica2.Fragments.TabFragment;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import com.bumptech.glide.Glide;
@@ -33,53 +35,64 @@ import com.google.android.gms.common.api.Status;
 
 import org.w3c.dom.Text;
 
-public class PerfilActivity extends AppCompatActivity {
+
+
+
+public class PerfilActivity extends DrawerActivity {
     String correoR="",contraseñaR="", foto="",nombre="";
     TextView texto;
     ImageView ifoto;
     GoogleApiClient mGoogleApiClient;
 
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-
-
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, new GoogleApiClient.OnConnectionFailedListener() {
-                    @Override
-                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                        Toast.makeText(getApplicationContext(),"Error en login",Toast.LENGTH_SHORT).show();
-                    }
-                } /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-
-
-
         setContentView(R.layout.activity_perfil);
 
-        texto = (TextView) findViewById(R.id.nombre);
+        if (findViewById(R.id.fragment_container) != null){
+            if (savedInstanceState != null)
+                return;
 
-        ifoto = (ImageView) findViewById(R.id.foto);
+            PerfilFragment fragment = new PerfilFragment();
+
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, fragment).commit();
+        }
 
 
-        Bundle extras = getIntent().getExtras();
-        correoR = extras.getString("correo");
-        contraseñaR = extras.getString("contraseña");
-        foto = extras.getString("foto");
-        nombre = extras.getString("nombre");
-
-
-        texto.setText("Correo: " + correoR + "\nNombre: " + nombre);
+//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestEmail()
+//                .build();
+//
+//
+//        mGoogleApiClient = new GoogleApiClient.Builder(this)
+//                .enableAutoManage(this /* FragmentActivity */, new GoogleApiClient.OnConnectionFailedListener() {
+//                    @Override
+//                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+//                        Toast.makeText(getApplicationContext(),"Error en login",Toast.LENGTH_SHORT).show();
+//                    }
+//                } /* OnConnectionFailedListener */)
+//                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+//                .build();
+//
+//
+//
+//
+//
+//        texto = (TextView) findViewById(R.id.nombre);
+//
+//        ifoto = (ImageView) findViewById(R.id.foto);
+//
+//
+//        Bundle extras = getIntent().getExtras();
+//        correoR = extras.getString("correo");
+//        contraseñaR = extras.getString("contraseña");
+//        foto = extras.getString("foto");
+//        nombre = extras.getString("nombre");
+//
+//
+//        texto.setText("Correo: " + correoR + "\nNombre: " + nombre);
 
 
 
@@ -87,11 +100,11 @@ public class PerfilActivity extends AppCompatActivity {
 
         //Log.d("correo del perfil",correoR);
         //Log.d("contraseña del perfil",contraseñaR);
-        iniciar();
+        //iniciar();
 
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_perfil,menu);
         return super.onCreateOptionsMenu(menu);
@@ -158,5 +171,5 @@ public class PerfilActivity extends AppCompatActivity {
                         // ...
                     }
                 });
-    }
+    }*/
 }

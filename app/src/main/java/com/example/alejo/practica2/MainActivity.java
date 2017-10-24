@@ -42,8 +42,6 @@ public class MainActivity extends DrawerActivity {
 
         prefs = getSharedPreferences(Tags.TAG_PREFERENCES,MODE_PRIVATE);
 
-
-
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();

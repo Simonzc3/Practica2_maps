@@ -171,7 +171,7 @@ public class DrawerActivity extends AppCompatActivity {
                         //Intent intent;
                         Handler handler = new Handler();
                         switch (item.getItemId()) {
-                            case R.id.home:
+                            case R.id.nav_camera:
                                 fullLayout.closeDrawer(GravityCompat.START);
                                 if (!item.isChecked()) {
                                     intent = new Intent(DrawerActivity.this,MainActivity.class);
@@ -184,6 +184,22 @@ public class DrawerActivity extends AppCompatActivity {
                                 fullLayout.closeDrawer(GravityCompat.START);
                                 if (!item.isChecked()) {
                                     intent = new Intent(DrawerActivity.this,ToursActivity.class);
+                                    handler.postDelayed(delay, 150);
+                                    item.setChecked(true);      // Start activity after some delay
+                                }
+                                break;
+                            case R.id.nav_share:
+                                fullLayout.closeDrawer(GravityCompat.START);
+                                if (!item.isChecked()) {
+                                    intent = new Intent(DrawerActivity.this,PerfilActivity.class);
+                                    handler.postDelayed(delay, 150);
+                                    item.setChecked(true);      // Start activity after some delay
+                                }
+                                break;
+                            case R.id.nav_specs:
+                                fullLayout.closeDrawer(GravityCompat.START);
+                                if (!item.isChecked()) {
+                                    intent = new Intent(DrawerActivity.this,BasicActivity.class);
                                     handler.postDelayed(delay, 150);
                                     item.setChecked(true);      // Start activity after some delay
                                 }

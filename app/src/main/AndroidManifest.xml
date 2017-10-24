@@ -24,7 +24,9 @@
         <activity
             android:name=".RegistroActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".PerfilActivity" />
+        <activity
+            android:name=".PerfilActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".SplashActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -46,8 +48,14 @@
             android:name=".DrawerActivity"
             android:label="@string/title_activity_drawer"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ToursActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".ToursActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".BasicActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            ></activity>
+
     </application>
 
 </manifest>
