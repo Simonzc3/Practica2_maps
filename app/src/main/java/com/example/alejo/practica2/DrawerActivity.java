@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.View;
@@ -25,21 +26,34 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 
 
 public class DrawerActivity extends AppCompatActivity {
 
     private SharedPreferences preferences;
+    SharedPreferences.Editor editor;
     protected int home_menu;
     protected DrawerLayout fullLayout;
     protected Toolbar toolbar;
     protected NavigationView navigationView;
     protected Bundle extras;
 
-    //private GoogleSignHandle googleSignHandle;
+    GoogleApiClient mGoogleApiClient;
+
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
+
         /**
          * This is going to be our actual root layout.
          */
@@ -90,7 +104,7 @@ public class DrawerActivity extends AppCompatActivity {
         final ImageView profileImg = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.image_drawer);
 
         // Load preferences
-        preferences = this.getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+        preferences = this.getSharedPreferences(Tags.TAG_PREFERENCES, Context.MODE_PRIVATE);
         /**
          * Set username and email depending on
          * whether the user is a guest or logged in
@@ -162,6 +176,7 @@ public class DrawerActivity extends AppCompatActivity {
     @SuppressWarnings("StatementWithEmptyBody")
     protected void setupNavigationDrawerContent() {
 
+
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -204,57 +219,23 @@ public class DrawerActivity extends AppCompatActivity {
                                     item.setChecked(true);      // Start activity after some delay
                                 }
                                 break;
+                            case R.id.nav_out:
 
-                          /*  case R.id.nav_specs:
-                                fullLayout.closeDrawer(GravityCompat.START);
-                                if (!item.isChecked()) {
-                                    intent = new Intent(DrawerActivity.this,Specs.class);
-                                    handler.postDelayed(delay, 150);
-                                    item.setChecked(true);      // Start activity after some delay
-                                }
-                                break;
-                            case R.id.zone1:
-                                fullLayout.closeDrawer(GravityCompat.START);
-                                intent = new Intent(DrawerActivity.this, SeeRoutes_Lists.class);
-                                intent.putExtra("option", "zone1");
-                                handler.postDelayed(delay, 150);    // Start activity after some delay
-                                break;
-                            case R.id.zone2:
-                                fullLayout.closeDrawer(GravityCompat.START);
-                                intent = new Intent(DrawerActivity.this, SeeRoutes_Lists.class);
-                                intent.putExtra("option", "zone2");
-                                handler.postDelayed(delay, 150);    // Start activity after some delay
-                                break;
-                            case R.id.zone3:
-                                fullLayout.closeDrawer(GravityCompat.START);
-                                intent = new Intent(DrawerActivity.this, SeeRoutes_Lists.class);
-                                intent.putExtra("option", "zone3");
-                                handler.postDelayed(delay, 150);    // Start activity after some delay
-                                break;
-                            case R.id.zone4:
-                                fullLayout.closeDrawer(GravityCompat.START);
-                                intent = new Intent(DrawerActivity.this, SeeRoutes_Lists.class);
-                                intent.putExtra("option", "zone4");
-                                handler.postDelayed(delay, 150);    // Start activity after some delay
-                                break;
-                            case R.id.logout:
-                                // Update preferences, in this case
-                                // changing logging status
-                                preferences.edit().putBoolean(
-                                        getString(R.string.is_logged), false).apply();
 
-                                fullLayout.closeDrawer(GravityCompat.START);
+                                //signOut();
+                                LoginManager.getInstance().logOut(); //Cierra sesión en facebook
+                                editor = preferences.edit();
+                                editor.putString(Tags.TAG_NAME,"");
+                                editor.putString(Tags.TAG_EMAIL,"");
+                                editor.putString(Tags.TAG_PASSWORD,"");
+                                editor.putInt(Tags.LOGIN_OPTION,0);
+                                editor.putString(Tags.TAG_URLIMG,"");
+                                editor.commit();
+                                intent = new Intent(DrawerActivity.this,LoguinActivity.class);
+                                finish();
+                                startActivity(intent);
 
-                                // Logout from Google
-                                if (preferences.getInt(WelcomeScreenActivity.LOGIN_OPTION, 0) == WelcomeScreenActivity.GOOGLE_LOGIN)
-                                    googleSignHandle.signOutAndRevoke();
-                                else {
-                                    // Return to Welcome Activity
-                                    intent = new Intent(DrawerActivity.this, WelcomeScreenActivity.class);
-                                    intent.putExtra("activity", "home");
-                                    handler.postDelayed(delay, 150);
-                                }
-                                break;*/
+                                break;
                         }
                         return true;
                     }
@@ -275,6 +256,16 @@ public class DrawerActivity extends AppCompatActivity {
         intent.putExtra("username", extras.getString("username"));
         intent.putExtra("email", extras.getString("email"));
         return intent;
+    }
+    public void signOut() {
+
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                        // ...
+                    }
+                });
     }
     /*
     @Override

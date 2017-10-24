@@ -278,9 +278,8 @@ public class LoguinActivity extends AppCompatActivity {
     public void goMainActivity(){
         prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
         editor = prefs.edit();
-
         //almacenar el valor de optlog
-        editor.putInt("optlog", oplog).apply();
+
         Intent intent = new Intent(LoguinActivity.this, MainActivity.class);
         startActivity(intent);
         finish();

@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.example.alejo.practica2.Fragments.Image2Fragment;
+import com.example.alejo.practica2.Fragments.ImageFragment;
 import com.example.alejo.practica2.Fragments.PerfilFragment;
 import com.example.alejo.practica2.Fragments.TabFragment;
 
@@ -18,6 +20,7 @@ public class BasicActivity extends DrawerActivity {
     FragmentManager fm;
     FragmentTransaction ft;
     ImageView imagen;
+    int case1=0,case2=0,case3 =0;
 
 
     @Override
@@ -37,7 +40,7 @@ public class BasicActivity extends DrawerActivity {
         fm = getSupportFragmentManager();
         ft = fm.beginTransaction();
 
-        SuperFragment fragment = new SuperFragment();
+        ImageFragment fragment = new ImageFragment();
         ft.add(R.id.fragment_container, fragment).commit();
     }
         private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -47,19 +50,15 @@ public class BasicActivity extends DrawerActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menu_home:
-                        //mTextMessage.setText(R.string.but_car);
-                    /*fragment = new CarFragment();
-                    getSupportFragmentManager().beginTransaction().
-                            replace(R.id.frame_car, fragment).commit();*/
+                            fm = getSupportFragmentManager();
+                            ft = fm.beginTransaction();
 
-                        fm = getSupportFragmentManager();
-                        ft = fm.beginTransaction();
-
-                        FlashFragment frangment1 = new FlashFragment();
-                        ft.replace(R.id.fragment_container, frangment1).commit();
-
-                        return true;
+                            ImageFragment frangment1 = new ImageFragment();
+                            ft.replace(R.id.fragment_container, frangment1).commit();
+                            case1=1;
+                            return true;
                     case R.id.menu_search:
+                        case1 =0;
                         //mTextMessage.setText(R.string.but_compras);
                     /*fragment = new MisComprasFragment();
                     getSupportFragmentManager().beginTransaction().
@@ -69,19 +68,20 @@ public class BasicActivity extends DrawerActivity {
                         ft = fm.beginTransaction();
 
 
-                        SuperFragment frangment2 = new SuperFragment();
-                        imagen.setImageResource(R.drawable.people);
+                        Image2Fragment frangment2 = new Image2Fragment();
+
                         ft.replace(R.id.fragment_container, frangment2).commit();
                         return true;
                 /*case R.id.navigation_notifications:
                     mTextMessage.setText(R.string.title_notifications);
                     return true;*/
                     case R.id.menu_notifications:
+                        case1 =0;
                         fm = getSupportFragmentManager();
                         ft = fm.beginTransaction();
 
                         SuperFragment frangment3 = new SuperFragment();
-                        imagen.setImageResource(R.drawable.cto);
+                        //imagen.setImageResource(R.drawable.cto);
                         ft.replace(R.id.fragment_container, frangment3).commit();
 
                         return true;
