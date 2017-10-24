@@ -79,8 +79,6 @@ public class BasicActivity extends DrawerActivity {
                     case R.id.menu_notifications:
                         fm = getSupportFragmentManager();
                         ft = fm.beginTransaction();
-                        
-
 
                         SuperFragment frangment3 = new SuperFragment();
                         imagen.setImageResource(R.drawable.cto);
