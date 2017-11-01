@@ -13,6 +13,7 @@ import com.example.alejo.practica2.Fragments.Image2Fragment;
 import com.example.alejo.practica2.Fragments.ImageFragment;
 import com.example.alejo.practica2.Fragments.PerfilFragment;
 import com.example.alejo.practica2.Fragments.TabFragment;
+import com.example.alejo.practica2.Fragments.TourFragment;
 
 public class BasicActivity extends DrawerActivity {
 
@@ -68,7 +69,7 @@ public class BasicActivity extends DrawerActivity {
                         ft = fm.beginTransaction();
 
 
-                        Image2Fragment frangment2 = new Image2Fragment();
+                        TourFragment frangment2 = new TourFragment();
 
                         ft.replace(R.id.fragment_container, frangment2).commit();
                         return true;

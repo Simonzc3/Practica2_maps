@@ -1,7 +1,9 @@
 {
   "project_info": {
     "project_number": "747451095536",
-    "project_id": "practica2-144ce"
+    "firebase_url": "https://practica2-144ce.firebaseio.com",
+    "project_id": "practica2-144ce",
+    "storage_bucket": "practica2-144ce.appspot.com"
   },
   "client": [
     {
@@ -13,7 +15,19 @@
       },
       "oauth_client": [
         {
+          "client_id": "747451095536-6t6ejetkgho3gf4vvfkipk748fccd004.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
           "client_id": "747451095536-unsldq09qsehl6cjp37vbens8veuho9q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.alejo.practica2",
+            "certificate_hash": "94464f546d959e7ca9987e7510a822f5e671e2bf"
+          }
+        },
+        {
+          "client_id": "747451095536-d6i6o5h6j1pkf9i1gt9qimdcnctcmoht.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.alejo.practica2",
@@ -35,11 +49,16 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "747451095536-6t6ejetkgho3gf4vvfkipk748fccd004.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }

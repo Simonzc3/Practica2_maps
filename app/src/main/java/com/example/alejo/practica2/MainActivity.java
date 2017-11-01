@@ -58,6 +58,9 @@ public class MainActivity extends DrawerActivity {
                 .build();
     }
 
+
+
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu,menu);
@@ -109,5 +112,5 @@ public class MainActivity extends DrawerActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 }

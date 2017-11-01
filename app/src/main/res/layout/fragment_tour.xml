@@ -1,0 +1,99 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.alejo.practica2.Fragments.TourFragment"
+    android:orientation="vertical"
+    android:fillViewport="true"
+    >
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:fillViewport="true"
+        >
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4.5"
+
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4.5"
+            android:text="@string/nametour"
+            android:id="@+id/name"
+            android:gravity="center"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4.5"
+            android:src="@drawable/people"
+            android:id="@+id/foto"
+        />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4.5"
+            android:text="@string/Cost"
+            android:id="@+id/cost"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4.5"
+            android:text="@string/description"
+            android:id="@+id/description"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4.5"
+            android:text="@string/detail"
+            android:id="@+id/detail"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4.5"
+            android:text="@string/duration"
+            android:id="@+id/duration"
+            android:gravity="center"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/create"
+            android:onClick="onClick"
+            android:id="@+id/bCreate"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/read"
+            android:onClick="onClick"
+            android:id="@+id/bRead"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/update"
+            android:onClick="onClick"
+            android:id="@+id/bUpdate"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/delete"
+            android:onClick="onClick"
+            android:id="@+id/bDelete"/>
+
+    </LinearLayout>
+
+</FrameLayout>

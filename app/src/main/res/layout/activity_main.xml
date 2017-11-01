@@ -8,10 +8,11 @@
     tools:context="com.example.alejo.practica2.MainActivity">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/image_maps"
-        tools:layout_editor_absoluteY="8dp"
-        tools:layout_editor_absoluteX="8dp" />
+        android:id="@+id/imageView2"
+        android:layout_width="241dp"
+        android:layout_height="133dp"
+        android:src="@drawable/icon_map"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp" />
 
 </LinearLayout>

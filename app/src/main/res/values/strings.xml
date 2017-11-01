@@ -32,6 +32,16 @@
     <string name="menu_home">Home</string>
     <string name="menu_search">Search</string>
     <string name="menu_notifications">Notificaciones</string>
+    <string name="nametour">Tour Name</string>
+    <string name="Cost">Cost:</string>
+    <string name="description">Description:</string>
+    <string name="detail">Detail:</string>
+    <string name="duration">Duration:</string>
+    <string name="create">Create:</string>
+    <string name="read">Read:</string>
+    <string name="update">Update:</string>
+    <string name="delete">Delete:</string>
+    <string name="list">List:</string>
 
 
 </resources>
