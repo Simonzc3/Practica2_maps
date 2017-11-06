@@ -1,5 +1,6 @@
 package com.example.alejo.practica2;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.alejo.practica2.Classes.UserClass;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -18,6 +20,11 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class MainActivity extends DrawerActivity {
@@ -25,13 +32,17 @@ public class MainActivity extends DrawerActivity {
     String correoR, contraseñaR,nombreR;
     String fotoR="";
     int main=2222;
-
+    int id=0;
+    int flag=0;
     int oplog;
+    UserClass user;
     GoogleApiClient mGoogleApiClient;
 
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
 
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("Users");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +67,52 @@ public class MainActivity extends DrawerActivity {
                 } /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+
+
+
+        prefs = getSharedPreferences(Tags.TAG_PREFERENCES, Context.MODE_PRIVATE);
+
+        correoR = prefs.getString(Tags.TAG_EMAIL,"");
+        nombreR = prefs.getString(Tags.TAG_NAME,"");
+
+
+        Toast.makeText(getApplicationContext(),correoR,Toast.LENGTH_SHORT).show();
+
+        String email="emai";
+
+
+
+        myRef = database.getReference("Users");
+        myRef.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            while(id!=100) {
+                                                if (dataSnapshot.child("User" + id).exists()) {
+                                                    user = dataSnapshot.child("User" + id).getValue(UserClass.class);
+                                                    String name2 = user.getEmail();
+                                                    if(correoR.equals(name2)){
+                                                        flag=flag+1;
+                                                    }
+                                                }else{
+                                                    break;
+                                                }
+                                                id=id+1;
+                                            }
+
+                                            if(flag ==0){
+                                                DatabaseReference myRef = database.getReference("Users").child("User"+id);
+                                                user= new UserClass(correoR,String.valueOf(id),"0" ,"0",nombreR,"123");
+                                                myRef.setValue(user);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+
+
+                                    });
     }
 
 

@@ -106,7 +106,7 @@ public class TourFragment extends Fragment{
             DatabaseReference myRef = database.getReference("Tours").child("Tour"+cont);
             @Override
             public void onClick(View v) {
-                name.setText("si si funciono yey");
+
             }
         });
         bRead.setOnClickListener(new View.OnClickListener() {

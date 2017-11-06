@@ -25,5 +25,25 @@
             android:text="@string/miperfil"
             android:id="@+id/nombre"
             android:gravity="center"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4.5"
+            android:text="@string/telefono"
+            android:id="@+id/telefono"
+            android:gravity="center"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.0"
+            android:id="@+id/EditarTelefono"
+            android:text="@string/Editartelefono"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:text="@string/BorrarCuenta"
+            android:id="@+id/Borrar"/>
     </LinearLayout>
 </FrameLayout>

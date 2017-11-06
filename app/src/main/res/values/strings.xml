@@ -42,6 +42,9 @@
     <string name="update">Update:</string>
     <string name="delete">Delete:</string>
     <string name="list">List:</string>
+    <string name="telefono">Teléfono</string>
+    <string name="Editartelefono">Editar Telefono</string>
+    <string name="BorrarCuenta">Borrar cuenta</string>
 
 
 </resources>
