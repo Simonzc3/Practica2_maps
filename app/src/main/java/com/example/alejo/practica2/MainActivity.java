@@ -27,7 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class MainActivity extends DrawerActivity {
+public class MainActivity extends DrawerActivity  {
     String correo="",contraseña="";
     String correoR, contraseñaR,nombreR;
     String fotoR="";
@@ -116,6 +116,12 @@ public class MainActivity extends DrawerActivity {
     }
 
 
+
+
+
+
+
+ //INTENTO DE MAPA EN LA ACTIVIDAD PRINCIPAL DE LA APLICACIÓN
 
 /*
     @Override

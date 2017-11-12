@@ -45,6 +45,7 @@
     <string name="telefono">Teléfono</string>
     <string name="Editartelefono">Editar Telefono</string>
     <string name="BorrarCuenta">Borrar cuenta</string>
+    <string name="title_activity_maps">Map</string>
 
 
 </resources>
