@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Practica2</string>
+    <string name="app_name">Colombia Travel</string>
     <string name="correo">Correo:</string>
     <string name="contraseña">Contraseña:</string>
     <string name="iniciar">Iniciar sesión</string>

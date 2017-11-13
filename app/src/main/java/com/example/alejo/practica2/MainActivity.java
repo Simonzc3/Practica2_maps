@@ -1,9 +1,12 @@
 package com.example.alejo.practica2;
 
+import android.*;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +23,13 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,7 +37,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class MainActivity extends DrawerActivity  {
+public class MainActivity extends DrawerActivity implements OnMapReadyCallback {
+
+
+    MapView mapView;
+    GoogleMap mMap;
+
+
+
     String correo="",contraseña="";
     String correoR, contraseñaR,nombreR;
     String fotoR="";
@@ -48,6 +65,26 @@ public class MainActivity extends DrawerActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+
+        //INICIALIZACIÓN DEL MAPA
+        mapView = (MapView) findViewById(R.id.map);
+
+
+        try{
+            mapView.onCreate(savedInstanceState);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        mapView.getMapAsync(this);
+        //mapView.onCreate(savedInstanceState);
+
+
+
+
+
 
 
 
@@ -113,15 +150,67 @@ public class MainActivity extends DrawerActivity  {
 
 
                                     });
+
+
+
+
+
+
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+
+        mMap.setMyLocationEnabled(true);
+
+        LatLng parquedeseos = new LatLng(6.2641494,-75.5672275);
+        mMap.addMarker(new MarkerOptions()
+                .position(parquedeseos).title("Parque de los deseos")
+                .snippet("donde tus deseoos se los roba un gamin")
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher))
+        );
 
 
+        //mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        //mMap.setMapType(GoogleMap.MAP_TYPE_NONE);
+        //mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        //mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
 
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(parquedeseos,20));
 
+    }
+    @Override
+    protected void onResume() {
+        mapView.onResume();
+        super.onResume();
+    }
 
+    @Override
+    protected void onDestroy() {
+        mapView.onDestroy();
+        super.onDestroy();
+    }
 
- //INTENTO DE MAPA EN LA ACTIVIDAD PRINCIPAL DE LA APLICACIÓN
+    @Override
+    public void onLowMemory() {
+        mapView.onLowMemory();
+        super.onLowMemory();
+    }
+
+    //INTENTO DE MAPA EN LA ACTIVIDAD PRINCIPAL DE LA APLICACIÓN
 
 /*
     @Override
