@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.View;
@@ -26,13 +25,9 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
@@ -110,7 +105,7 @@ public class DrawerActivity extends AppCompatActivity {
          * whether the user is a guest or logged in
          *  with Facebook or Google+ or as a Guest
          */
-        if (preferences.getInt("optlog", 0) == 1 ){
+        if (preferences.getInt(Tags.LOGIN_OPTION, 0) == 1 ){
             email.setText("");
             //username.setText(getString(R.string.guest));
         }else{
@@ -186,7 +181,7 @@ public class DrawerActivity extends AppCompatActivity {
                         //Intent intent;
                         Handler handler = new Handler();
                         switch (item.getItemId()) {
-                            case R.id.nav_camera:
+                            case R.id.nav_map:
                                 fullLayout.closeDrawer(GravityCompat.START);
                                 if (!item.isChecked()) {
                                     intent = new Intent(DrawerActivity.this,MainActivity.class);
@@ -203,18 +198,10 @@ public class DrawerActivity extends AppCompatActivity {
                                     item.setChecked(true);      // Start activity after some delay
                                 }
                                 break;
-                            case R.id.nav_share:
+                            case R.id.nav_profile:
                                 fullLayout.closeDrawer(GravityCompat.START);
                                 if (!item.isChecked()) {
                                     intent = new Intent(DrawerActivity.this,PerfilActivity.class);
-                                    handler.postDelayed(delay, 150);
-                                    item.setChecked(true);      // Start activity after some delay
-                                }
-                                break;
-                            case R.id.nav_specs:
-                                fullLayout.closeDrawer(GravityCompat.START);
-                                if (!item.isChecked()) {
-                                    intent = new Intent(DrawerActivity.this,BasicActivity.class);
                                     handler.postDelayed(delay, 150);
                                     item.setChecked(true);      // Start activity after some delay
                                 }

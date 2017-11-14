@@ -62,9 +62,6 @@
         <activity
             android:name=".ToursActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".BasicActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

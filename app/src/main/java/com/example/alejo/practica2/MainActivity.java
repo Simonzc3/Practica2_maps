@@ -212,57 +212,5 @@ public class MainActivity extends DrawerActivity implements OnMapReadyCallback {
 
     //INTENTO DE MAPA EN LA ACTIVIDAD PRINCIPAL DE LA APLICACIÓN
 
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        Intent intent = new Intent();
-
-        switch (id){
-            case R.id.mMiPerfil:
-                intent = new Intent(MainActivity.this,PerfilActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.mCerrar:
-
-                prefs = getSharedPreferences("Mis preferencias",MODE_PRIVATE);
-                editor = prefs.edit();
-
-                editor.putInt(Tags.LOGIN_OPTION,oplog);
-                editor.commit();
-
-                ///////////////////////////////cerrar sesión de google
-                Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-
-                        new ResultCallback<Status>() {
-                            @Override
-                            public void onResult(Status status) {
-                                // ...
-                            }
-                        });
-                ////////////////////////////////////////////////
-                LoginManager.getInstance().logOut(); //Cierra sesión en facebook
-                intent = new Intent(MainActivity.this,LoguinActivity.class);
-                prefs = getSharedPreferences("Mis preferencias",MODE_PRIVATE);
-                editor = prefs.edit();
-                oplog =0;
-                editor.putString(Tags.TAG_PASSWORD,"");
-                editor.putString(Tags.TAG_EMAIL,"");
-                editor.putString(Tags.TAG_NAME,"");
-                editor.putString(Tags.TAG_URLIMG,"");
-                editor.putInt(Tags.LOGIN_OPTION,oplog);
-                editor.commit();
-                startActivity(intent);
-                finish();
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }*/
 }
