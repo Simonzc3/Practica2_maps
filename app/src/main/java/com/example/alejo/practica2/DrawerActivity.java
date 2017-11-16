@@ -105,32 +105,32 @@ public class DrawerActivity extends AppCompatActivity {
          * whether the user is a guest or logged in
          *  with Facebook or Google+ or as a Guest
          */
-        if (preferences.getInt(Tags.LOGIN_OPTION, 0) == 1 ){
-            email.setText("");
-            //username.setText(getString(R.string.guest));
-        }else{
-            /** Read data from shared preferences **/
-            // Set name
-            username.setText(preferences.getString(Tags.TAG_NAME, ""));
-            // Set email
-            email.setText(preferences.getString(Tags.TAG_EMAIL, ""));
-            // Create image from fb URL
-            FetchImage fetchImage = new FetchImage(this, new FetchImage.AsyncResponse() {
-                @Override
-                public void processFinish(Bitmap bitmap) {
-                    if (bitmap != null) {
-                        Resources res = getResources();
-                        RoundedBitmapDrawable roundBitmap = RoundedBitmapDrawableFactory
-                                .create(res, bitmap);
-                        roundBitmap.setCornerRadius(Math.max(bitmap.getWidth(), bitmap.getHeight()) / 2.0f);
-                        profileImg.setImageDrawable(roundBitmap);
-                    }
-                }
-            });
-            fetchImage.execute(preferences.getString(Tags.TAG_URLIMG, ""));
+        int valor1 = preferences.getInt(Tags.LOGIN_OPTION, 0);
 
-            //googleSignHandle = new GoogleSignHandle(this, getApplicationContext());
-        }
+
+        /** Read data from shared preferences **/
+        // Set name
+        String nameee = preferences.getString(Tags.TAG_NAME, "");
+        username.setText(preferences.getString(Tags.TAG_NAME, ""));
+        // Set email
+        email.setText(preferences.getString(Tags.TAG_EMAIL, ""));
+        // Create image from fb URL
+        FetchImage fetchImage = new FetchImage(this, new FetchImage.AsyncResponse() {
+            @Override
+            public void processFinish(Bitmap bitmap) {
+                if (bitmap != null) {
+                    Resources res = getResources();
+                    RoundedBitmapDrawable roundBitmap = RoundedBitmapDrawableFactory
+                            .create(res, bitmap);
+                    roundBitmap.setCornerRadius(Math.max(bitmap.getWidth(), bitmap.getHeight()) / 2.0f);
+                    profileImg.setImageDrawable(roundBitmap);
+                }
+            }
+        });
+        fetchImage.execute(preferences.getString(Tags.TAG_URLIMG, ""));
+
+        //googleSignHandle = new GoogleSignHandle(this, getApplicationContext());
+
 
     }
 

@@ -116,7 +116,7 @@ public class MainActivity extends DrawerActivity implements OnMapReadyCallback {
         Toast.makeText(getApplicationContext(),correoR,Toast.LENGTH_SHORT).show();
 
         String email="emai";
-
+        //JDSJNDCNJIDJNWDJWDNJICNWWDCJNICDWJNICW
 
 
         myRef = database.getReference("Users");
@@ -162,7 +162,7 @@ public class MainActivity extends DrawerActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        /*if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -170,10 +170,11 @@ public class MainActivity extends DrawerActivity implements OnMapReadyCallback {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            Log.d("Esta ","mierda no funciona");
             return;
-        }
+        }*/
 
-        mMap.setMyLocationEnabled(true);
+        //mMap.setMyLocationEnabled(true);
 
         LatLng parquedeseos = new LatLng(6.2641494,-75.5672275);
         mMap.addMarker(new MarkerOptions()
@@ -183,11 +184,11 @@ public class MainActivity extends DrawerActivity implements OnMapReadyCallback {
         );
 
 
-        //mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         //mMap.setMapType(GoogleMap.MAP_TYPE_NONE);
         //mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         //mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-        mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+        //mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
 
         //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(parquedeseos,20));
 
