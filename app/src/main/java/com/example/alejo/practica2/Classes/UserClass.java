@@ -6,18 +6,26 @@ package com.example.alejo.practica2.Classes;
 
 public class UserClass {
     private String email,  name;
-    private String id,lat, longi, phone;
+    private String lat, longi, phone;
+    private String key;
 
-    public UserClass(String email, String id, String lat, String longi, String name,  String phone) {
+    public UserClass(String email, String lat, String longi, String name,  String phone) {
         this.email = email;
         this.name = name;
-        this.id = id;
         this.lat = lat;
         this.longi = longi;
         this.phone = phone;
     }
 
     public UserClass() {
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getEmail() {
@@ -34,14 +42,6 @@ public class UserClass {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getLat() {

@@ -31,7 +31,7 @@ public class PerfilActivity extends DrawerActivity {
             if (savedInstanceState != null)
                 return;
 
-            FlashFragment fragment = new FlashFragment();
+            PerfilFragment fragment = new PerfilFragment();
 
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, fragment).commit();

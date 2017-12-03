@@ -1,10 +1,12 @@
 package com.example.alejo.practica2;
 
 import android.*;
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
@@ -23,6 +25,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -30,11 +33,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.android.gms.location.LocationServices;
 
 
 public class MainActivity extends DrawerActivity implements OnMapReadyCallback {
@@ -60,7 +65,7 @@ public class MainActivity extends DrawerActivity implements OnMapReadyCallback {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("Users");
-
+    private FusedLocationProviderClient mFusedLocationClient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,13 +88,13 @@ public class MainActivity extends DrawerActivity implements OnMapReadyCallback {
 
 
 
-
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
 
 
 
         prefs = getSharedPreferences(Tags.TAG_PREFERENCES,MODE_PRIVATE);
-
+        editor = prefs.edit();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -113,48 +118,49 @@ public class MainActivity extends DrawerActivity implements OnMapReadyCallback {
         nombreR = prefs.getString(Tags.TAG_NAME,"");
 
 
+
         Toast.makeText(getApplicationContext(),correoR,Toast.LENGTH_SHORT).show();
 
         String email="emai";
-        //JDSJNDCNJIDJNWDJWDNJICNWWDCJNICDWJNICW
+
 
 
         myRef = database.getReference("Users");
+
         myRef.addValueEventListener(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(DataSnapshot dataSnapshot) {
-                                            while(id!=100) {
-                                                if (dataSnapshot.child("User" + id).exists()) {
-                                                    user = dataSnapshot.child("User" + id).getValue(UserClass.class);
-                                                    String name2 = user.getEmail();
-                                                    if(correoR.equals(name2)){
-                                                        flag=flag+1;
-                                                    }
-                                                }else{
-                                                    break;
-                                                }
-                                                id=id+1;
-                                            }
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                            if(flag ==0){
-                                                DatabaseReference myRef = database.getReference("Users").child("User"+id);
-                                                user= new UserClass(correoR,String.valueOf(id),"0" ,"0",nombreR,"123");
-                                                myRef.setValue(user);
-                                            }
-                                        }
+                if (dataSnapshot.hasChildren()){
+                    for (DataSnapshot children:dataSnapshot.getChildren()) {
+                        if (children.child("email").getValue().equals(correoR)) {
+                            user = new UserClass();
+                            user.setKey(children.getKey());
+                            editor.putString(Tags.TAG_KEY,children.getKey());
+                            editor.apply();
+                            flag = 1;
+                            break;
+                        }
+                    }
+                }
 
-                                        @Override
-                                        public void onCancelled(DatabaseError databaseError) {
+                if(flag ==0){
+                    DatabaseReference myRef = database.getReference("Users").push();
+                    user= new UserClass(correoR,"0" ,"0",nombreR,"123");
+                    myRef.setValue(user);
+                    user.setKey(myRef.getKey());
+                    editor.putString(Tags.TAG_KEY,myRef.getKey());
+                    editor.apply();
+                }
+            }
 
-                                        }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-
-                                    });
-
-
-
+            }
 
 
+        });
 
     }
 
@@ -162,7 +168,7 @@ public class MainActivity extends DrawerActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        /*if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -171,10 +177,35 @@ public class MainActivity extends DrawerActivity implements OnMapReadyCallback {
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
             Log.d("Esta ","mierda no funciona");
-            return;
-        }*/
+            Toast.makeText(getApplicationContext(),"Error: No tiene permisos suficientes",Toast.LENGTH_SHORT).show();
+            int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION=1;
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
+                return;
+            }
 
-        //mMap.setMyLocationEnabled(true);
+        }
+
+
+        mFusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),location.getLongitude()),15));
+                            DatabaseReference currentUser = myRef.child(user.getKey());
+                            currentUser.child("lat").setValue(location.getLatitude());
+                            currentUser.child("longi").setValue(location.getLongitude());
+
+                        }else{
+                            Toast.makeText(getApplicationContext(),"No se pudo actualizar la ubicación",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
 
         LatLng parquedeseos = new LatLng(6.2641494,-75.5672275);
         mMap.addMarker(new MarkerOptions()
@@ -183,7 +214,7 @@ public class MainActivity extends DrawerActivity implements OnMapReadyCallback {
                 .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher))
         );
 
-
+        mMap.setMyLocationEnabled(true);
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         //mMap.setMapType(GoogleMap.MAP_TYPE_NONE);
         //mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);

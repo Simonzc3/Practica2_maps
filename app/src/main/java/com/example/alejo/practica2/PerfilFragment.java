@@ -3,7 +3,6 @@ package com.example.alejo.practica2;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -32,7 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FlashFragment extends Fragment {
+public class PerfilFragment extends Fragment {
 
 
 
@@ -46,7 +45,7 @@ public class FlashFragment extends Fragment {
     SharedPreferences.Editor editor;
     int id=0;
     UserClass user;
-    public FlashFragment() {
+    public PerfilFragment() {
         // Required empty public constructor
     }
 
@@ -55,7 +54,7 @@ public class FlashFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View view = inflater.inflate(R.layout.fragment_flash, container, false);
+        final View view = inflater.inflate(R.layout.perfil_fragment, container, false);
 
         texto = (TextView) view.findViewById(R.id.nombre);
         ifoto = (ImageView) view.findViewById(R.id.foto);
@@ -132,12 +131,12 @@ public class FlashFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference("Users").child("User"+id);
-                myRef = database.getReference("Users").child("User"+id);
+                DatabaseReference myRef = database.getReference("Users");
+                myRef.child(prefs.getString(Tags.TAG_KEY,"")).child("phone").setValue(eTelefono.getText().toString());
 
-                Map<String,Object> newData = new HashMap<>();
+                /*Map<String,Object> newData = new HashMap<>();
                 newData.put("phone",eTelefono.getText().toString());
-                myRef.updateChildren(newData);
+                myRef.updateChildren(newData);*/
             }
         });
 

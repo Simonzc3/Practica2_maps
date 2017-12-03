@@ -250,7 +250,7 @@ public class LoguinActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void iniciar(View view) {
+    /*public void iniciar(View view) {
         correoR = prefs.getString(Tags.TAG_EMAIL, "");
         contrasenaR = prefs.getString(Tags.TAG_PASSWORD, "");
 
@@ -268,7 +268,7 @@ public class LoguinActivity extends AppCompatActivity {
         }
 
 
-    }
+    }*/
 
     private boolean validarEmail(String email) {
         Pattern pattern = Patterns.EMAIL_ADDRESS;

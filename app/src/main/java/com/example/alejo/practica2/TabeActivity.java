@@ -11,13 +11,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-
-import android.widget.TextView;
 
 public class TabeActivity extends AppCompatActivity {
 
@@ -108,11 +104,11 @@ public class TabeActivity extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position){
                 case 0:
-                    return new FlashFragment();
+                    return new PerfilFragment();
                 case 1:
                     return new SuperFragment();
                 case 2:
-                    return new FlashFragment();
+                    return new PerfilFragment();
                 default:return null;
             }
         }

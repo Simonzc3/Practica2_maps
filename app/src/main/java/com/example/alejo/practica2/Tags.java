@@ -11,4 +11,5 @@ public class Tags {
     public final static String LOGIN_OPTION = "optlog";
     public final static String TAG_PREFERENCES = "MisPreferencias";
     public final static String TAG_PASSWORD = "password";
+    public final static String TAG_KEY = "key";
 }
