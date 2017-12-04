@@ -10,12 +10,11 @@ public class TourClass {
     public TourClass() {
     }
 
-    public TourClass(String cost, String description, String detail, String duration, String id, String name, String url) {
+    public TourClass(String cost, String description, String detail, String duration, String name, String url) {
         this.cost = cost;
         this.description = description;
         this.detail = detail;
         this.duration = duration;
-        this.id = id;
         this.name = name;
         this.url = url;
     }
@@ -50,14 +49,6 @@ public class TourClass {
 
     public void setDuration(String duration) {
         this.duration = duration;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getName() {

@@ -62,7 +62,7 @@ public class PerfilFragment extends Fragment {
         eTelefono = (EditText) view.findViewById(R.id.telefono);
         editTelefono = (Button) view.findViewById(R.id.EditarTelefono);
 
-        Borrar = (TextView) view.findViewById(R.id.Borrar);
+
 
 
 
@@ -139,31 +139,6 @@ public class PerfilFragment extends Fragment {
                 myRef.updateChildren(newData);*/
             }
         });
-
-
-
-        Borrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference("Users").child("User"+id);
-                myRef = database.getReference("Users").child("User"+id);
-                myRef.removeValue();
-                LoginManager.getInstance().logOut(); //Cierra sesión en facebook
-                editor = prefs.edit();
-                editor.putString(Tags.TAG_NAME,"");
-                editor.putString(Tags.TAG_EMAIL,"");
-                editor.putString(Tags.TAG_PASSWORD,"");
-                editor.putInt(Tags.LOGIN_OPTION,0);
-                editor.putString(Tags.TAG_URLIMG,"");
-                editor.commit();
-                intent = new Intent(view.getContext(),LoguinActivity.class);
-                getActivity().finish();
-                startActivity(intent);
-            }
-        });
-
 
         iniciar();
 

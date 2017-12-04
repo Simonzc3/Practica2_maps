@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.regex.Pattern;
 
 
+import com.example.alejo.practica2.Classes.UserClass;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -48,6 +49,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,6 +79,8 @@ public class LoguinActivity extends AppCompatActivity {
     String id_facebook;
     String hola;
     Bitmap imagen;
+    UserClass user;
+    int flag=0;
 
 
 
@@ -83,6 +91,8 @@ public class LoguinActivity extends AppCompatActivity {
     CallbackManager callbackManager;
     private int option; // 1:facebook,2:contraseña,3:google
     GoogleApiClient mGoogleApiClient;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("Users");
 
 
     @Override
@@ -147,17 +157,17 @@ public class LoguinActivity extends AppCompatActivity {
         }*/
 
 
-        eCorreo = (EditText) findViewById(R.id.eCorreo);
-        eContrasena = (EditText) findViewById(R.id.eContraseña);
+//        eCorreo = (EditText) findViewById(R.id.eCorreo);
+//        eContrasena = (EditText) findViewById(R.id.eContraseña);
 
 
         loginButton = (LoginButton) findViewById(R.id.login_button);
         prefs = getSharedPreferences(Tags.TAG_PREFERENCES, Context.MODE_PRIVATE);
 
-        loginButton.setReadPermissions(Arrays.asList(
+        /*loginButton.setReadPermissions(Arrays.asList(
                 "email",
                 "public_profile"
-        ));
+        ));*/
 
 
         callbackManager = CallbackManager.Factory.create();
@@ -168,7 +178,7 @@ public class LoguinActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Login Exitoso",Toast.LENGTH_SHORT).show();
 
                 //progress.show();
-                Profile profile = Profile.getCurrentProfile();
+                /*Profile profile = Profile.getCurrentProfile();
                 if (profile != null) {
                     facebook_id=profile.getId();
                     f_name=profile.getFirstName();
@@ -177,7 +187,9 @@ public class LoguinActivity extends AppCompatActivity {
                     full_name=profile.getName();
                     profile_image=profile.getProfilePictureUri(400, 400).toString();
                     Toast.makeText(getApplicationContext(),full_name,Toast.LENGTH_SHORT).show();
-                }
+
+
+                }*/
 
 
                 GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
@@ -187,17 +199,29 @@ public class LoguinActivity extends AppCompatActivity {
                         JSONObject json = response.getJSONObject();
                         try {
                             if(json != null){
-                                String text = "<b>Name :</b> "+json.getString("name")+"<br><br><b>Email :</b> "+json.getString("email")+"<br><br><b>Profile link :</b> "+json.getString("link");
-                                email_id = json.getString("email");
 
+                                if (object.getString("name") != null) {
+                                    full_name = object.getString("name");
+                                }
+                                if (object.getString("email") != null) {
+                                    correoR = object.getString("email");
+                                }
+                                if (object.getString("picture") != null) {
+                                    JSONObject imagen = new JSONObject(object.getString("picture"));
+                                    JSONObject imagen2 = new JSONObject(imagen.getString("data"));
+                                    profile_image = imagen2.getString("url");
+                                }
                                 SharedPreferences.Editor editor = prefs.edit();
                                 editor.putString(Tags.TAG_NAME, full_name);
-                                editor.putString(Tags.TAG_EMAIL, email_id);
+                                editor.putString(Tags.TAG_EMAIL, correoR);
                                 editor.putString(Tags.TAG_URLIMG, profile_image);
                                 //editor.putBoolean(getString(R.string.is_guest), false);
                                 editor.putInt(Tags.LOGIN_OPTION, 1).apply();
                                 editor.apply();
-                                goMainActivity();
+
+                                databasecheck();
+
+                                //goMainActivity(); //está en el databasecheck
                             }
 
                         } catch (JSONException e) {
@@ -215,7 +239,7 @@ public class LoguinActivity extends AppCompatActivity {
 
             @Override
             public void onCancel() {
-                Toast.makeText(getApplicationContext(),"Login cancrelado",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Login cancelado",Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -225,16 +249,16 @@ public class LoguinActivity extends AppCompatActivity {
         });
 
     }
-    public void registrarse(View view){
+    /*public void registrarse(View view){
         Intent intent = new Intent(LoguinActivity.this,RegistroActivity.class);
         startActivityForResult(intent,1234);
 
-    }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == 1234 && resultCode == RESULT_OK){ //registro
-            Toast.makeText(this, "REGISTRO ÉXITOSO", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "REGISTRO EXITOSO", Toast.LENGTH_SHORT).show();
 
 
         }else if (requestCode == 5678){
@@ -250,25 +274,7 @@ public class LoguinActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    /*public void iniciar(View view) {
-        correoR = prefs.getString(Tags.TAG_EMAIL, "");
-        contrasenaR = prefs.getString(Tags.TAG_PASSWORD, "");
 
-        correo = eCorreo.getText().toString();
-        contrasena = eContrasena.getText().toString();
-        oplog = 3;
-
-        if(correo.equals(correoR) && contrasena.equals(contrasenaR)){
-            goMainActivity();
-        }  else{
-            AlertDialog ventana = new AlertDialog.Builder(this).create();
-            ventana.setMessage("Error en los datos ingresados");
-            ventana.setTitle("Error");
-            ventana.show();
-        }
-
-
-    }*/
 
     private boolean validarEmail(String email) {
         Pattern pattern = Patterns.EMAIL_ADDRESS;
@@ -284,6 +290,46 @@ public class LoguinActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
 
+    }
+
+    public void databasecheck(){
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.hasChildren()){
+                    for (DataSnapshot children:dataSnapshot.getChildren()) {
+                        if (children.child("email").getValue().equals(correoR)) {
+                            user = new UserClass();
+                            user.setKey(children.getKey());
+                            editor.putString(Tags.TAG_KEY,children.getKey());
+                            editor.apply();
+                            flag = 1;
+                            break;
+                        }
+                    }
+                }
+
+                if(flag ==0){
+                    DatabaseReference myRef = database.getReference("Users").push();
+                    user= new UserClass(correoR,"0" ,"0",nombreR,"123");
+                    myRef.setValue(user);
+                    user.setKey(myRef.getKey());
+                    editor.putString(Tags.TAG_KEY,myRef.getKey());
+                    editor.apply();
+                }
+
+                goMainActivity();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(getApplicationContext(),"Database error",Toast.LENGTH_SHORT).show();
+
+            }
+
+
+        });
     }
 
     // metodo de google
@@ -316,9 +362,12 @@ public class LoguinActivity extends AppCompatActivity {
             editor.apply();
 
 
-            goMainActivity();
+            databasecheck();
+
+
+           // goMainActivity();
             // ir a la actividad Main Activity
-            // Ojo que el loguelo de google no va todavía
+
             //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
         } else {
             // Signed out, show unauthenticated UI.
@@ -326,49 +375,7 @@ public class LoguinActivity extends AppCompatActivity {
         }
     }
 
-    /////////////////////////////////////////////////
-    private void setFacebookData(final LoginResult loginResult)
-    {
-        GraphRequest request = GraphRequest.newMeRequest(
-                loginResult.getAccessToken(),
-                new GraphRequest.GraphJSONObjectCallback() {
-                    @Override
-                    public void onCompleted(JSONObject object, GraphResponse response) {
-                        // Application code
-                        try {
-                            Log.i("Response",response.toString());
-
-                            email_id = response.getJSONObject().getString("email");
-                            full_name = response.getJSONObject().getString("first_name");
-                            String lastName = response.getJSONObject().getString("last_name");
-                            String gender = response.getJSONObject().getString("gender");
 
 
-
-                            Profile profile = Profile.getCurrentProfile();
-                            String id = profile.getId();
-                            profile_image = profile.getLinkUri().toString();
-                            Log.i("Link",profile_image);
-                            if (Profile.getCurrentProfile()!=null)
-                            {
-                                Log.i("Login", "ProfilePic" + Profile.getCurrentProfile().getProfilePictureUri(200, 200));
-                            }
-
-                            Log.i("Login" + "Email", email_id);
-                            Log.i("Login"+ "FirstName", full_name);
-                            Log.i("Login" + "LastName", lastName);
-                            Log.i("Login" + "Gender", gender);
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-        Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,email,first_name,last_name,gender");
-        request.setParameters(parameters);
-        request.executeAsync();
-    }
 
 }

@@ -127,40 +127,7 @@ public class MainActivity extends DrawerActivity implements OnMapReadyCallback {
 
         myRef = database.getReference("Users");
 
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if (dataSnapshot.hasChildren()){
-                    for (DataSnapshot children:dataSnapshot.getChildren()) {
-                        if (children.child("email").getValue().equals(correoR)) {
-                            user = new UserClass();
-                            user.setKey(children.getKey());
-                            editor.putString(Tags.TAG_KEY,children.getKey());
-                            editor.apply();
-                            flag = 1;
-                            break;
-                        }
-                    }
-                }
-
-                if(flag ==0){
-                    DatabaseReference myRef = database.getReference("Users").push();
-                    user= new UserClass(correoR,"0" ,"0",nombreR,"123");
-                    myRef.setValue(user);
-                    user.setKey(myRef.getKey());
-                    editor.putString(Tags.TAG_KEY,myRef.getKey());
-                    editor.apply();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-
-
-        });
 
     }
 
@@ -188,7 +155,7 @@ public class MainActivity extends DrawerActivity implements OnMapReadyCallback {
 
         }
 
-
+        myRef = database.getReference("Users");
         mFusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
@@ -196,7 +163,7 @@ public class MainActivity extends DrawerActivity implements OnMapReadyCallback {
                         // Got last known location. In some rare situations this can be null.
                         if (location != null) {
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),location.getLongitude()),15));
-                            DatabaseReference currentUser = myRef.child(user.getKey());
+                            DatabaseReference currentUser = myRef.child(prefs.getString(Tags.TAG_KEY,""));
                             currentUser.child("lat").setValue(location.getLatitude());
                             currentUser.child("longi").setValue(location.getLongitude());
 
