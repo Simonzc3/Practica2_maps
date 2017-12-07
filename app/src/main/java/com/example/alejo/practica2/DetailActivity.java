@@ -52,7 +52,7 @@ public class DetailActivity extends AppCompatActivity {
         cost = extras.getString("cost");
         duration = extras.getString("duration");
         tour_key = extras.getString("tour");
-        Toast.makeText(getApplicationContext(),tour_key,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(),tour_key,Toast.LENGTH_SHORT).show();
 
          item_name = findViewById(R.id.item_title);
          item_detail = findViewById(R.id.item_detail);
@@ -99,7 +99,7 @@ public class DetailActivity extends AppCompatActivity {
     public void schedule(View view) {
         prefs = getSharedPreferences(Tags.TAG_PREFERENCES,MODE_PRIVATE);
         myRef.push().setValue(new RequestClass("0",tour_key,prefs.getString(Tags.TAG_KEY,"")));
-       // Toast.makeText(getApplicationContext(),"Request generated",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),"Request generated",Toast.LENGTH_SHORT).show();
 
     }
 }
