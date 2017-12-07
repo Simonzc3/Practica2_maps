@@ -82,7 +82,7 @@ public class TabFragment extends Fragment {
             zonesList[i] = new ToursFragment();
             zonesList[i].setArguments(arg);
         }
-        setStringNames("Tours", "Available tours", "Scheduled tours");
+        setStringNames("Tours", "Available tours", "Requested tours");
 
         return x;
 

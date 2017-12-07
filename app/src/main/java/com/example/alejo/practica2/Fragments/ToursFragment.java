@@ -94,8 +94,8 @@ public class ToursFragment extends ListFragment{
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            if(snapshot.child("user_id").exists() && snapshot.child("tour_id").exists()){
-                                if (snapshot.child("user_id").getValue().equals(prefs.getString(Tags.TAG_KEY, ""))) {
+                            if(snapshot.child("guide_id").exists() && snapshot.child("tour_id").exists()){
+                                if (snapshot.child("guide_id").getValue().equals(prefs.getString(Tags.TAG_KEY, ""))) {
 
                                     tour_ID.add(snapshot.child("tour_id").getValue().toString());
                             }

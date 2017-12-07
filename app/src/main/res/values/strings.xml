@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Colombia Travel</string>
+    <string name="app_name">CTO Guides</string>
     <string name="correo">Correo:</string>
     <string name="contraseña">Contraseña:</string>
     <string name="iniciar">Iniciar sesión</string>
@@ -46,6 +46,7 @@
     <string name="Editartelefono">Editar Telefono</string>
     <string name="BorrarCuenta">Borrar cuenta</string>
     <string name="title_activity_maps">Map</string>
+    <string name="guide">GUIDES</string>
 
 
 </resources>

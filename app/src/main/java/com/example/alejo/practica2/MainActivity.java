@@ -145,7 +145,7 @@ public class MainActivity extends DrawerActivity implements OnMapReadyCallback {
 
         }
 
-        myRef = database.getReference("Users");
+        myRef = database.getReference("Guides");
         mFusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override

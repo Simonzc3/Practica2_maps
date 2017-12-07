@@ -85,7 +85,7 @@ public class LoguinActivity extends AppCompatActivity {
     private int option; // 1:facebook,2:contraseña,3:google
     GoogleApiClient mGoogleApiClient;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("Users");
+    DatabaseReference myRef = database.getReference("Guides");
 
 
     @Override
@@ -292,19 +292,22 @@ public class LoguinActivity extends AppCompatActivity {
 
                 if (dataSnapshot.hasChildren()){
                     for (DataSnapshot children:dataSnapshot.getChildren()) {
-                        if (children.child("email").getValue().equals(correoR)) {
-                            user = new UserClass();
-                            user.setKey(children.getKey());
-                            editor.putString(Tags.TAG_KEY,children.getKey());
-                            editor.apply();
-                            flag = 1;
-                            break;
+                        if(children.child("email").exists()){
+                            if (children.child("email").getValue().equals(correoR)) {
+                                user = new UserClass();
+                                user.setKey(children.getKey());
+                                editor.putString(Tags.TAG_KEY,children.getKey());
+                                editor.apply();
+                                flag = 1;
+                                break;
+                            }
+
                         }
                     }
                 }
 
                 if(flag ==0){
-                    DatabaseReference myRef = database.getReference("Users").push();
+                    DatabaseReference myRef = database.getReference("Guides").push();
                     user= new UserClass(correoR,"0" ,"0",nombreR,"123");
                     myRef.setValue(user);
                     user.setKey(myRef.getKey());
