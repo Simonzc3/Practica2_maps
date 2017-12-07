@@ -7,31 +7,44 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.example.alejo.practica2.Classes.TourClass;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+
 public class ClassActivity extends AppCompatActivity {
 
-    FragmentManager fm;
-    FragmentTransaction ft;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
 
+    ArrayList<TourClass> toursList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class);
 
-        fm = getSupportFragmentManager();
-        ft = fm.beginTransaction();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("Tours");
 
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot child: dataSnapshot.getChildren()){
+                    toursList.add(child.getValue(TourClass.class));
+                }
+            }
 
-        SuperFragment frangment = new SuperFragment();
-        ft.add(R.id.frame, frangment).commit();
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-
+            }
+        });
 
     }
 
-    public void cambiar(View view) {
-        ft = fm.beginTransaction();
-        PerfilFragment fragment = new PerfilFragment();
-        ft.replace(R.id.frame,fragment).commit();
-    }
 }

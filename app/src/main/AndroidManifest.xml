@@ -10,6 +10,7 @@
          location permissions for the 'MyLocation' functionality. 
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <uses-feature android:name="android.hardware.location.gps" />
 
     <application
@@ -33,9 +34,6 @@
             android:name=".LoguinActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".RegistroActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".PerfilActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -50,10 +48,6 @@
         <activity
             android:name=".ClassActivity"
             android:label="@string/title_activity_class"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".TabeActivity"
-            android:label="@string/title_activity_tabe"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".DrawerActivity"
@@ -72,6 +66,7 @@
              You can define the keys for the debug and release targets in src/debug/ and src/release/. 
         -->
 
+        <activity android:name=".DetailActivity"></activity>
     </application>
 
 </manifest>

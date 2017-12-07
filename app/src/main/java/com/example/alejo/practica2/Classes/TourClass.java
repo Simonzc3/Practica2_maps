@@ -1,12 +1,14 @@
 package com.example.alejo.practica2.Classes;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by alejo on 30/10/2017.
  */
 
 public class TourClass {
     private String cost, description,detail,duration,id,name,url;
-
+    Bitmap  bmap;
     public TourClass() {
     }
 
@@ -37,6 +39,14 @@ public class TourClass {
 
     public String getDetail() {
         return detail;
+    }
+
+    public Bitmap getBmap() {
+        return bmap;
+    }
+
+    public void setBmap(Bitmap bmap) {
+        this.bmap = bmap;
     }
 
     public void setDetail(String detail) {

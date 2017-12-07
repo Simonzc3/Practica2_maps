@@ -1,4 +1,4 @@
-package com.example.alejo.practica2;
+package com.example.alejo.practica2.Classes;
 
 /**
  * Created by Usuario on 16/10/2017.
