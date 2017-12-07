@@ -16,13 +16,7 @@
         android:layout_height="0dp"
         android:layout_weight="10"
         android:src="@drawable/cto"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="@string/iniciar"
-            android:gravity="center"
-            android:textColor="@color/black"/>
+        
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
