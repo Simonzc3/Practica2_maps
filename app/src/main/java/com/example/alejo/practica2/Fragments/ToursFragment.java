@@ -83,7 +83,7 @@ public class ToursFragment extends ListFragment{
                     public void onCancelled(DatabaseError databaseError) {
 
                     }
-                });
+                }); 
                 break;
             case 1:
                 firebaseDatabase = FirebaseDatabase.getInstance();
