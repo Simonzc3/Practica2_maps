@@ -2,13 +2,20 @@ package com.example.alejo.practica2.Classes;
 
 import android.graphics.Bitmap;
 
+import java.io.FileOutputStream;
+import java.io.Serializable;
+
 /**
  * Created by alejo on 30/10/2017.
  */
 
-public class TourClass {
-    private String cost, description,detail,duration,id,name,url;
-    Bitmap  bmap;
+public class TourClass implements Serializable{
+    private String cost, description,detail,duration,name,url,key;
+    private Bitmap bmap;
+
+  //  bmap.compress(Bitmap.CompressFormat.PNG, 90,outputStream);
+
+
     public TourClass() {
     }
 
@@ -23,6 +30,14 @@ public class TourClass {
 
     public String getCost() {
         return cost;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public void setCost(String cost) {

@@ -6,6 +6,21 @@
     android:layout_height="match_parent"
     tools:context="com.example.alejo.practica2.DetailActivity"
     android:orientation="vertical">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        app:theme="@style/ToolbarTheme" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
 
     <ImageView
         android:layout_marginTop="5dp"
@@ -37,10 +52,47 @@
         android:textColor="@color/black"
         android:textStyle="bold"
         android:text="Settings" />
+        <TextView
+            android:id="@+id/item_duration"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:text="Settings" />
+        <TextView
+            android:id="@+id/item_cost"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:text="Settings" />
     <Button
+        android:id="@+id/bSchedule"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Scheddule"
+        android:background="@color/cadetblue"
+        android:onClick="schedule"
         />
+    <TextView
+        android:id="@+id/item_description"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:text="Settings" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

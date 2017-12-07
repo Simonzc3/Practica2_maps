@@ -15,6 +15,7 @@ import android.widget.ListView;
 
 import com.example.alejo.practica2.Classes.Tags;
 import com.example.alejo.practica2.Classes.TourClass;
+import com.example.alejo.practica2.DetailActivity;
 import com.example.alejo.practica2.DrawerActivity;
 import com.example.alejo.practica2.FetchImage;
 import com.example.alejo.practica2.ListToursAdapter;
@@ -25,14 +26,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.prefs.Preferences;
 
 /**
  * Created by Usuario on 16/10/2017.
  */
 
-public class ToursFragment extends ListFragment {
+public class ToursFragment extends ListFragment{
     private  int posit;
 
     FirebaseDatabase firebaseDatabase;
@@ -66,7 +69,11 @@ public class ToursFragment extends ListFragment {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for(DataSnapshot child: dataSnapshot.getChildren()){
-                            toursList.add(child.getValue(TourClass.class));
+                            TourClass tour = new TourClass();
+                            tour = child.getValue(TourClass.class);
+                            tour.setKey(child.getKey());
+                            toursList.add(tour);
+                            //toursList.add(child.getValue(TourClass.class));
                         }
                         FetchImage fetchImage = new FetchImage(getContext(), fetchListener);
                         fetchImage.execute(toursList.get(index).getUrl());
@@ -87,9 +94,12 @@ public class ToursFragment extends ListFragment {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            if (snapshot.child("user_id").getValue().equals(prefs.getString(Tags.TAG_KEY, ""))) {
+                            if(snapshot.child("user_id").exists() && snapshot.child("tour_id").exists()){
+                                if (snapshot.child("user_id").getValue().equals(prefs.getString(Tags.TAG_KEY, ""))) {
 
-                                tour_ID.add(snapshot.child("tour_id").getValue().toString());
+                                    tour_ID.add(snapshot.child("tour_id").getValue().toString());
+                            }
+
 
                             }
                         }
@@ -98,10 +108,20 @@ public class ToursFragment extends ListFragment {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 for (String tourItems:tour_ID.toArray(new String[tour_ID.size()])){
-                                    requestList.add( dataSnapshot.child(tourItems).getValue(TourClass.class));
+                                    if (dataSnapshot.child(tourItems).exists()){
+                                        TourClass tour = new TourClass();
+                                        tour = dataSnapshot.child(tourItems).getValue(TourClass.class);
+                                        tour.setKey(dataSnapshot.child(tourItems).getKey());
+                                        requestList.add(tour);
+                                        //requestList.add( dataSnapshot.child(tourItems).getValue(TourClass.class));
+                                    }
+
                                 }
-                                FetchImage fetchImage = new FetchImage(getContext(), fetchListener1);
-                                fetchImage.execute(requestList.get(index1).getUrl());
+                                if (!requestList.isEmpty()){
+                                    FetchImage fetchImage = new FetchImage(getContext(), fetchListener1);
+                                    fetchImage.execute(requestList.get(index1).getUrl());
+                                }
+
                             }
                             public void onCancelled(DatabaseError databaseError) {
 
@@ -168,7 +188,17 @@ public class ToursFragment extends ListFragment {
     private AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+            Intent intent = new Intent(getContext(), DetailActivity.class);
+            intent.putExtra("name", toursList.get(i).getName());
+            intent.putExtra("detail", toursList.get(i).getDetail());
+            intent.putExtra("description", toursList.get(i).getDescription());
+            intent.putExtra("duration", toursList.get(i).getDuration());
+            intent.putExtra("cost", toursList.get(i).getCost());
+            intent.putExtra("url", toursList.get(i).getUrl());
+            intent.putExtra("tour", toursList.get(i).getKey());
+            startActivity(intent);
+            //   intent.putExtra("tour", toursList.get(i));
+           // startActivity(intent);
         }
     };
 

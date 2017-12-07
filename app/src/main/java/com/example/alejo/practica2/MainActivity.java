@@ -134,7 +134,7 @@ public class MainActivity extends DrawerActivity implements OnMapReadyCallback {
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
             Log.d("Esta ","mierda no funciona");
-            Toast.makeText(getApplicationContext(),"Error: No tiene permisos suficientes",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Error: missing permissions",Toast.LENGTH_SHORT).show();
             int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION=1;
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},

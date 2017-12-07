@@ -5,35 +5,35 @@ package com.example.alejo.practica2.Classes;
  */
 
 public class RequestClass {
-    private int guideid,tourid,userid;
+    private String guide_id, tour_id, user_id;
 
-    public RequestClass(int guideid, int tourid, int userid) {
-        this.guideid = guideid;
-        this.tourid = tourid;
-        this.userid = userid;
+    public RequestClass(String guideid, String tourid, String userid) {
+        this.guide_id = guideid;
+        this.tour_id = tourid;
+        this.user_id = userid;
     }
 
-    public int getGuideid() {
-        return guideid;
+    public String getGuide_id() {
+        return guide_id;
     }
 
-    public void setGuideid(int guideid) {
-        this.guideid = guideid;
+    public void setGuide_id(String guide_id) {
+        this.guide_id = guide_id;
     }
 
-    public int getTourid() {
-        return tourid;
+    public String getTour_id() {
+        return tour_id;
     }
 
-    public void setTourid(int tourid) {
-        this.tourid = tourid;
+    public void setTour_id(String tour_id) {
+        this.tour_id = tour_id;
     }
 
-    public int getUserid() {
-        return userid;
+    public String getUser_id() {
+        return user_id;
     }
 
-    public void setUserid(int userid) {
-        this.userid = userid;
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 }
